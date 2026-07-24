@@ -29,7 +29,7 @@ const fetchFootballData = async (endpoint) => {
     );
     return response.data;
   } catch (error) {
-    console.error(`Error en Football-Data: ${error.message}`);
+    console.error(`❌ Error en Football-Data: ${error.message}`);
     throw error;
   }
 };
@@ -39,7 +39,7 @@ const getAllLeagues = async () => {
     const data = await fetchFootballData('/competitions');
     return data.competitions;
   } catch (error) {
-    console.error('Error al obtener ligas:', error);
+    console.error('❌ Error al obtener ligas:', error.message);
     return [];
   }
 };
@@ -49,7 +49,7 @@ const getTeamsByLeague = async (leagueCode) => {
     const data = await fetchFootballData(`/competitions/${leagueCode}/teams`);
     return data.teams;
   } catch (error) {
-    console.error(`Error al obtener equipos de ${leagueCode}:`, error);
+    console.error(`❌ Error al obtener equipos de ${leagueCode}:`, error.message);
     return [];
   }
 };
@@ -57,9 +57,9 @@ const getTeamsByLeague = async (leagueCode) => {
 const getMatches = async (leagueCode) => {
   try {
     const data = await fetchFootballData(`/competitions/${leagueCode}/matches?status=LIVE,SCHEDULED`);
-    return data.matches;
+    return data.matches || [];
   } catch (error) {
-    console.error(`Error al obtener partidos de ${leagueCode}:`, error);
+    console.error(`❌ Error al obtener partidos de ${leagueCode}:`, error.message);
     return [];
   }
 };
@@ -70,9 +70,9 @@ const getFinishedMatches = async (leagueCode, days = 30) => {
     const data = await fetchFootballData(
       `/competitions/${leagueCode}/matches?status=FINISHED&dateFrom=${fromDate}`
     );
-    return data.matches;
+    return data.matches || [];
   } catch (error) {
-    console.error(`Error al obtener resultados de ${leagueCode}:`, error);
+    console.error(`❌ Error al obtener resultados de ${leagueCode}:`, error.message);
     return [];
   }
 };
@@ -80,9 +80,9 @@ const getFinishedMatches = async (leagueCode, days = 30) => {
 const getStandings = async (leagueCode) => {
   try {
     const data = await fetchFootballData(`/competitions/${leagueCode}/standings`);
-    return data.standings;
+    return data.standings || [];
   } catch (error) {
-    console.error(`Error al obtener standings de ${leagueCode}:`, error);
+    console.error(`❌ Error al obtener standings de ${leagueCode}:`, error.message);
     return [];
   }
 };
@@ -92,7 +92,7 @@ const getTeamStatistics = async (teamId) => {
     const data = await fetchFootballData(`/teams/${teamId}`);
     return data;
   } catch (error) {
-    console.error(`Error al obtener estadísticas del equipo ${teamId}:`, error);
+    console.error(`❌ Error al obtener estadísticas del equipo ${teamId}:`, error.message);
     return null;
   }
 };
@@ -102,7 +102,7 @@ const getMatchDetails = async (matchId) => {
     const data = await fetchFootballData(`/matches/${matchId}`);
     return data;
   } catch (error) {
-    console.error(`Error al obtener detalles del partido ${matchId}:`, error);
+    console.error(`❌ Error al obtener detalles del partido ${matchId}:`, error.message);
     return null;
   }
 };
